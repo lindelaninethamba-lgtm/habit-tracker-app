@@ -40,6 +40,7 @@ class Storage: #manages database operations
               habit.periodicity,
               habit.creation_date.strftime('%Y-%m-%d %H:%M:%S')))
         self.conn.commit() #saves changes
+        habit.habit_id = cursor.lastrowid
     
     def load_habits(self): #returns all habits saved in the database
         cursor = self.conn.cursor()
@@ -56,19 +57,20 @@ class Storage: #manages database operations
     def delete_habit(self, habit_id: int): #delete a habit
         cursor = self.conn.cursor()
         cursor.execute("DELETE FROM habits WHERE habit_id = ?", (habit_id,))
-        cursor.execute("DELETE FROM logs WHERE habit_id = ?", (habit_id,))
+        cursor.execute("DELETE FROM check_logs WHERE habit_id = ?", (habit_id,))
         self.conn.commit()
 
     def check_off_habit(self, habit_id: int): #checks off habit
         cursor = self.conn.cursor()
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        cursor.execute("""INSERT INTO logs(habit_id, check_off_date)
-                       VALUES(?,?))""", (habit_id, now))
+        cursor.execute("""INSERT INTO check_logs(habit_id, check_off_date)
+                       VALUES(?,?)""", (habit_id, now))
         self.conn.commit()
+        log_id = cursor.lastrowid
 
     def load_logs(self, habit_id:int):#loads all logs for a particular habit
         cursor= self.conn.cursor()
-        cursor.execute("SELECT * FROM logs WHERE habit_id = ?", (habit_id))
+        cursor.execute("SELECT * FROM check_logs WHERE habit_id = ?", (habit_id,))
         rows = cursor.fetchall()
         logs = []
         for row in rows:
