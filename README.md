@@ -45,15 +45,7 @@ Each habit comes with 4 weeks of simulated tracking data for testing purposes.
 
 The CLI menu will appear with the following options:
 
-HABIT TRACKER APP
-
-1. Create Habit
-2. Delete Habit
-3. Check-off Habit
-4. View Streak for a Habit
-5. View All Habits
-6. View Longest Streak
-0. Exit
+![Menu](images/menu.png)
 
 ## How to Create a Habit
 1. Run python main.py
