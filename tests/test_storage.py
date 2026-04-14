@@ -21,8 +21,7 @@ def test_save_and_load_habit(storage):#test save and load habits
     assert habits[0].habit_name == "Gym Session"
 
 
-def test_habit_id_assigned_after_save(storage):
-    """Test that habit_id is assigned by database after save."""
+def test_habit_id_assigned_after_save(storage):#test habit id
     h = Habit("Reading", "Read 20 pages", "daily")
     storage.save_habit(h, 1)
     assert h.habit_id is not None
