@@ -17,7 +17,7 @@ Python 3.7+ was chosen for this application and SQLite because it is built-in in
 4. analytics.py  runs all analytics functions such as computing streaks, loading habits and filtering by habit periosicity
 5. cli.py  is the menu interface which allows the user to give input and returns the relevant output
 6. predefined_data.py loads 5 habits and 4 weeks of data and also data used for running tests
-6. tests/ folder contains all unit tests and fixtures
+7. tests/ folder contains all unit tests and fixtures
 
 On first run, the app automatically loads 5 predefined habits with 4 weeks 
 of tracking data. 
@@ -49,10 +49,10 @@ HABIT TRACKER APP
 
 1. Create Habit
 2. Delete Habit
-4. Check-off Habit
-5. View Streak for a Habit
-6. View All Habits
-7. View Longest Streak
+3. Check-off Habit
+4. View Streak for a Habit
+5. View All Habits
+6. View Longest Streak
 0. Exit
 
 ## How to Create a Habit
