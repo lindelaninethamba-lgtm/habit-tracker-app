@@ -24,7 +24,7 @@ class Storage: #manages database operations
                        periodicity TEXT NOT NULL,
                        creation_date TEXT NOT NULL,
                        FOREIGN KEY(user_id) REFERENCES users(user_id))""")#creates a habits table
-        cursor.execute("""CREATE TABLE IF NOT EXISTS check_logs(log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        cursor.execute("""CREATE TABLE IF NOT EXISTS logs(log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                        habit_id INTEGER NOT NULL,
                        check_off_date TEXT NOT NULL,
                        FOREIGN KEY(habit_id) REFERENCES habits(habit_id))""")#creates a checklog table
@@ -56,21 +56,27 @@ class Storage: #manages database operations
     
     def delete_habit(self, habit_id: int): #delete a habit
         cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM logs WHERE habit_id = ?", (habit_id,))
         cursor.execute("DELETE FROM habits WHERE habit_id = ?", (habit_id,))
-        cursor.execute("DELETE FROM check_logs WHERE habit_id = ?", (habit_id,))
         self.conn.commit()
 
-    def check_off_habit(self, habit_id: int): #checks off habit
+    def check_off_habit(self, habit_id: int,
+                        check_off_date=None):
+        """Records a habit completion event."""
         cursor = self.conn.cursor()
-        now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        cursor.execute("""INSERT INTO check_logs(habit_id, check_off_date)
-                       VALUES(?,?)""", (habit_id, now))
+        if check_off_date is None:
+            check_off_date = datetime.now()
+        now = check_off_date.strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute("""
+            INSERT INTO logs (habit_id, check_off_date)
+            VALUES (?, ?)
+        """, (habit_id, now))
         self.conn.commit()
         log_id = cursor.lastrowid
 
     def load_logs(self, habit_id:int):#loads all logs for a particular habit
         cursor= self.conn.cursor()
-        cursor.execute("SELECT * FROM check_logs WHERE habit_id = ?", (habit_id,))
+        cursor.execute("SELECT * FROM logs WHERE habit_id = ?", (habit_id,))
         rows = cursor.fetchall()
         logs = []
         for row in rows:
@@ -78,7 +84,7 @@ class Storage: #manages database operations
                            habit_id=row[1], 
                            check_off_date = datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S'))
             logs.append(log)
-            return logs
+        return logs
 
 
     
