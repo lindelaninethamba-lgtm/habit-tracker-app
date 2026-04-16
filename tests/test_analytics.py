@@ -1,7 +1,8 @@
 import pytest
 from datetime import datetime, timedelta
 from analytics import (get_all_habits, filter_by_periodicity,
-                       longest_streak_for_habit, longest_streak_all)
+                        longest_streak_for_habit, longest_streak_all,
+                        habit_struggled_most)
 from habit import Habit
 from check_log import CheckLog
 
@@ -134,3 +135,10 @@ def test_longest_streak_all(four_week_habits, four_week_logs): #test longest str
         four_week_habits, four_week_logs)
     assert habit.habit_name == "Gym Session"
     assert streak == 28
+
+def test_habit_struggled_most(four_week_habits, four_week_logs): #computes most struggled habit
+    result_habit, result_streak = habit_struggled_most(four_week_habits, four_week_logs)
+    assert result_streak == min(
+        longest_streak_for_habit(h, [l for l in four_week_logs if l.habit_id == h.habit_id])
+        for h in four_week_habits
+    )

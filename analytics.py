@@ -71,3 +71,17 @@ def longest_streak_all(habits: list, all_logs: list) -> tuple: #returns longest 
 
     streaks = list(map(make_streak_tuple, habits)) #matches each streak to corresponding habit, makes tuple
     return reduce(compare_streaks, streaks) #checks habit with hightest steak to compute best one and returns that
+
+def habit_struggled_most(habits: list, all_logs: list) -> tuple: #returns the habit with the lowest longest streak.
+    if not habits:
+        return None, 0
+
+    def get_logs_for_habit(habit):
+        return list(filter(lambda log: log.habit_id == habit.habit_id, all_logs))
+
+    def make_streak_tuple(habit):
+        return (habit, longest_streak_for_habit(habit, get_logs_for_habit(habit)))
+
+    streaks = list(map(make_streak_tuple, habits))
+    return min(streaks, key=lambda t: t[1])
+
