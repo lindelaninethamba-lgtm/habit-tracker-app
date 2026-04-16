@@ -38,6 +38,7 @@ Each habit comes with 4 weeks of simulated tracking data for testing purposes.
 2. filter_by_periodicity - Filters habits by daily or weekly 
 3. longest_streak_for_habit - Returns longest streak for one habit 
 4. longest_streak_all - Returns habit with longest streak overall 
+5. habit_struggled_most - returns habit with the lowest longest streaks
 5. Analytics are implemented using the **functional programming paradigm** 
 6. with filter(), map() and reduce()
 
@@ -72,6 +73,6 @@ The CLI menu will appear with the following options:
 
 ## Test Results
 Expected output is all tests passing:
-All 25 tests passing:
+All 26 tests passing:
 
 ![Test Results](images/tests_passing.png)
