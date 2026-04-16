@@ -2,14 +2,8 @@ from datetime import datetime, timedelta
 from habit import Habit
 
 
-def load_predefined_data(storage):
-    """
-    Loads 5 predefined habits and 4 weeks of tracking
-    data into the database. Only runs if database is empty.
-
-    Args:
-        storage (Storage): The storage instance to save to.
-    """
+def load_predefined_data(storage): #loads predefined data. skips loading if any habits already exist in the database.
+    #delete habits.db first to reload predefined data.
     existing = storage.load_habits()
     if existing:
         print("Predefined data already loaded.")
@@ -57,13 +51,13 @@ def load_predefined_data(storage):
                 habits[2].habit_id,
                 check_off_date=start_date + timedelta(days=i))
 
-    # Reading — weekly — first 2 weeks only
-    for i in range(2):
+    # Reading — weekly — first 2 weeks only, streak broke after week 3 and 4
+    for i in range(4):
         storage.check_off_habit(
             habits[3].habit_id,
             check_off_date=start_date + timedelta(weeks=i))
 
-    # Healthy Diet — daily — sporadic
+    # Healthy Diet — daily — randomly inconsistent
     for i in [0, 1, 5, 6, 7, 14, 15, 20]:
         storage.check_off_habit(
             habits[4].habit_id,
