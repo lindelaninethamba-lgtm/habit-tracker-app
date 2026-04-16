@@ -1,5 +1,5 @@
 from analytics import (get_all_habits, filter_by_periodicity,
-                       longest_streak_for_habit, longest_streak_all)
+                       longest_streak_for_habit, longest_streak_all, habit_struggled_most)
 from habit import Habit
 from storage import Storage
 
@@ -30,6 +30,8 @@ class CLI: #user and app interface class handling command line
                 self.display_all_habits()
             elif choice == "6":
                 self.display_longest_streak()
+            elif choice == "7":
+                self.display_struggled_most()
             elif choice == "0":
                 print("\nGoodbye! Keep up your habits!")
                 break
@@ -143,3 +145,20 @@ class CLI: #user and app interface class handling command line
             print(f"\n '{habit.habit_name}' has the longest "
                   f"streak: {streak} "
                   f"{'days' if habit.periodicity == 'daily' else 'weeks'}")
+        
+    def display_struggled_most(self): #displays habit with lowest longest streak
+        print("\n--- Most Struggled Habit ---")
+        habits = self.storage.load_habits()
+        if not habits:
+            print("No habits found.")
+            return
+
+        all_logs = []
+        for habit in habits:
+            all_logs.extend(self.storage.load_logs(habit.habit_id))
+
+            habit, streak = habit_struggled_most(habits, all_logs)
+        if habit:
+            print(f"\n '{habit.habit_name}' was the most struggled habit "
+              f"with a longest streak of only {streak} "
+              f"{'days' if habit.periodicity == 'daily' else 'weeks'}")
