@@ -71,8 +71,14 @@ The CLI menu will appear with the following options:
 1. Select option 6 from the menu
 2. The habit with the longest streak is displayed automatically
 
+## How to View Most Struggled Habit
+
+1. Select option 7 from the menu
+2. The habit with the lowest longest streak is displayed automatically
+
 ## Test Results
 Expected output is all tests passing:
 All 26 tests passing:
 
 ![Test Results](images/tests_passing.png)
+
