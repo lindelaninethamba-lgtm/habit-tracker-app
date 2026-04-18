@@ -2,7 +2,7 @@ import pytest
 from check_log import CheckLog
 from datetime import datetime
 
-def test_check_log_creation(): #tests that checklog
+def test_check_log_creation(): #tests that checklog object is created with the correct habit id
     log1 = CheckLog(habit_id= 1)
     assert log1.habit_id == 1
 

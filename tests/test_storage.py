@@ -6,7 +6,7 @@ from habit import Habit
 
 @pytest.fixture #providing sample data to enable testing
 def storage():
-    #creating a temporary database for testing
+    """creating a temporary database for testing"""
     s = Storage("test_habits.db")
     yield s
     s.conn.close()

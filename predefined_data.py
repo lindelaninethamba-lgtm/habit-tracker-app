@@ -2,8 +2,9 @@ from datetime import datetime, timedelta
 from habit import Habit
 
 
-def load_predefined_data(storage): #loads predefined data. skips loading if any habits already exist in the database.
-    #delete habits.db first to reload predefined data.
+def load_predefined_data(storage): #
+    """loads predefined data. skips loading if any habits already exist in the database.
+    #delete habits.db first to reload predefined data."""
     existing = storage.load_habits()
     if existing:
         print("Predefined data already loaded.")
@@ -13,7 +14,7 @@ def load_predefined_data(storage): #loads predefined data. skips loading if any 
 
     start_date = datetime(2026, 1, 1)
 
-    # ── 5 Predefined Habits ──────────────────────────────
+    #  5 Predefined Habits 
     habits = [
         Habit("Outdoor Activity",
               "1 hour walk outside", "weekly"),
@@ -30,7 +31,7 @@ def load_predefined_data(storage): #loads predefined data. skips loading if any 
     for habit in habits:
         storage.save_habit(habit, user_id=1)
 
-    # ── 4 Weeks of Check-off Data ────────────────────────
+    #  4 Weeks of Check-off Data 
 
     # Outdoor Activity — weekly — every week for 4 weeks
     for i in range(4):

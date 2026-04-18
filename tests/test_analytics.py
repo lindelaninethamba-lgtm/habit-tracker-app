@@ -142,3 +142,4 @@ def test_habit_struggled_most(four_week_habits, four_week_logs): #computes most 
         longest_streak_for_habit(h, [l for l in four_week_logs if l.habit_id == h.habit_id])
         for h in four_week_habits
     )
+    

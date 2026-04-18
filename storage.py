@@ -4,13 +4,16 @@ from habit import Habit
 from check_log import CheckLog
 from user import User
 
-class Storage: #manages database operations
+class Storage: 
+    """storage class that manages database operations"""
     def __init__(self, db_path:str = "habits.db"):
+        """initialises the storage class and connects  to database"""
         self.db_path = db_path #storing the database path
         self.conn = sqlite3.connect(self.db_path)
         self.initialise_db()
 
-    def initialise_db(self):#initialising the database
+    def initialise_db(self):
+        """initialising the database and creates three tables using SQL"""
         cursor = self.conn.cursor() #open and writing to the database
 
         cursor.execute("""CREATE TABLE IF NOT EXISTS users(user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +34,8 @@ class Storage: #manages database operations
         
         self.conn.commit()#saves changes
 
-    def save_habit(self, habit:Habit, user_id:int):#saves a new habit to database
+    def save_habit(self, habit:Habit, user_id:int):
+        """saves a new habit to database"""
         cursor = self.conn.cursor() #writes to database
         cursor.execute("""
             INSERT INTO habits (user_id, habit_name, task_description,
@@ -42,7 +46,8 @@ class Storage: #manages database operations
         self.conn.commit() #saves changes
         habit.habit_id = cursor.lastrowid #takes the assigned id by database into the habit object
     
-    def load_habits(self): #returns all habits saved in the database
+    def load_habits(self): 
+        """returns all habits saved in the database"""
         cursor = self.conn.cursor()
         cursor.execute("""SELECT * FROM habits""") #selects every row entry in habits table
         rows = cursor.fetchall() #fetches all rows
@@ -54,13 +59,15 @@ class Storage: #manages database operations
             habits.append(h) #populates list from database row entries
         return habits
     
-    def delete_habit(self, habit_id: int): #delete a habit
+    def delete_habit(self, habit_id: int): 
+        """delete a habit in the database"""
         cursor = self.conn.cursor()
         cursor.execute("DELETE FROM logs WHERE habit_id = ?", (habit_id,)) #deletes logs
         cursor.execute("DELETE FROM habits WHERE habit_id = ?", (habit_id,)) #then deletes habits
         self.conn.commit()
 
-    def check_off_habit(self, habit_id: int, check_off_date=None): #marks habit as complete
+    def check_off_habit(self, habit_id: int, check_off_date=None): 
+        """marks habit as complete in the database"""
         cursor = self.conn.cursor()
         if check_off_date is None:
             check_off_date = datetime.now() #uses current timestamp to check off habit
@@ -72,7 +79,8 @@ class Storage: #manages database operations
         self.conn.commit()
         log_id = cursor.lastrowid #assign a unuique id from database to new log
 
-    def load_logs(self, habit_id:int):#returns all logs for a particular habit
+    def load_logs(self, habit_id:int):
+        """returns all logs for a particular habit by reading from the database"""
         cursor= self.conn.cursor()
         cursor.execute("SELECT * FROM logs WHERE habit_id = ?", (habit_id,))
         rows = cursor.fetchall()

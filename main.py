@@ -3,7 +3,9 @@ from cli import CLI
 from predefined_data import load_predefined_data
 
 
-def main():#entry point for habit which launches the app
+def main():
+    """entry point for habit which launches the app by 
+    running the command line interface"""
     storage = Storage()
     load_predefined_data(storage)
     cli = CLI(storage)

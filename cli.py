@@ -4,20 +4,23 @@ from habit import Habit
 from storage import Storage
 
 
-class CLI: #user and app interface class handling command line
+class CLI: 
+    """user and app interface class handling command line"""
 
-    def __init__(self, storage: Storage): #initialise cli 
-         self.storage = storage
+    def __init__(self, storage: Storage): 
+        """initialise cli class with storage class """
+        self.storage = storage
 
-    def run(self): #shows user menu
+    def run(self): 
+        """shows user menu"""
         
-        print("    HABIT TRACKER APP")
+        print("HABIT TRACKER APP")
         
 
         while True:
-            self.display_menu()
-            choice = input("Enter your choice: ").strip() #input prompt
-
+            self.display_menu() #displays menu ay run
+            choice = input("Enter your choice: ").strip() #input prompt to user
+            """Based on user input, different classes run"""
             if choice == "1":
                 self.create_habit()
             elif choice == "2":
@@ -38,7 +41,8 @@ class CLI: #user and app interface class handling command line
             else:
                 print("\n❌ Invalid choice. Please try again.")
 
-    def display_menu(self): #display menu
+    def display_menu(self): 
+        """displays menu options to user"""
         print("\n------------------------")
         print("1. Create Habit")
         print("2. Delete Habit")
@@ -46,10 +50,12 @@ class CLI: #user and app interface class handling command line
         print("4. View Streak for a Habit")
         print("5. View All Habits")
         print("6. View Longest Streak")
+        print("7. View Struggled Habit")
         print("0. Exit")
         print("------------------------")
 
-    def display_habit_list(self): #displays all habits in a numbered list
+    def display_habit_list(self): 
+        """displays all habits in a numbered list"""
         habits = self.storage.load_habits()
         if not habits:
             print("\n❌ No habits found.")
@@ -59,7 +65,9 @@ class CLI: #user and app interface class handling command line
             print(f"{i}. {habit.habit_name} ({habit.periodicity})")
         return habits
 
-    def select_habit(self): #Shows habit list and asks user to pick one.Returns the selected Habit object or None.
+    def select_habit(self): 
+        """Shows habit list and asks user to pick one.
+        Returns the selected Habit object or None."""
         habits = self.display_habit_list()
         if not habits:
             return None
@@ -74,7 +82,8 @@ class CLI: #user and app interface class handling command line
             print("\n❌ Please enter a number.")
             return None
 
-    def create_habit(self): #propmts user to enter details
+    def create_habit(self): 
+        """propmts user to enter habit details"""
         print("\n--- Create New Habit ---")
         name = input("Habit name: ").strip()
         description = input("Description: ").strip()
@@ -89,7 +98,9 @@ class CLI: #user and app interface class handling command line
         self.storage.save_habit(habit, user_id=1)
         print(f"\n✓ Habit '{name}' created successfully!")
 
-    def delete_habit(self): #delete habit
+    def delete_habit(self): 
+        """deletes habit by allowing user to select habit and 
+        delete through delete function in storage"""
         print("\n--- Delete Habit ---")
         habit = self.select_habit()
         if not habit:
@@ -102,7 +113,9 @@ class CLI: #user and app interface class handling command line
         else:
             print("\nDeletion cancelled.")
 
-    def check_off_habit(self): #checkoff habit
+    def check_off_habit(self): 
+        """checks off habit by allowing user to select habit and check 
+         it off through delete function in storage"""
         print("\n--- Check-off Habit ---")
         habit = self.select_habit()
         if not habit:
@@ -110,7 +123,9 @@ class CLI: #user and app interface class handling command line
         self.storage.check_off_habit(habit.habit_id)
         print(f"\n✓ '{habit.habit_name}' checked off!")
 
-    def display_streak(self): #displays habit streak
+    def display_streak(self): 
+        """displays habit streakby allowing user to select 
+        habit and load logs function in storage"""
         print("\n--- View Streak ---")
         habit = self.select_habit()
         if not habit:
@@ -121,7 +136,8 @@ class CLI: #user and app interface class handling command line
               f"'{habit.habit_name}': {streak} "
               f"{'days' if habit.periodicity == 'daily' else 'weeks'}")
 
-    def display_all_habits(self): #displays habits
+    def display_all_habits(self): 
+        """displays habits from load habits in storage """
         print("\n--- All Habits ---")
         habits = self.storage.load_habits()
         if not habits:
@@ -131,7 +147,8 @@ class CLI: #user and app interface class handling command line
         for habit in all_habits:
             print(f"  {habit}")
 
-    def display_longest_streak(self): #display longest streak
+    def display_longest_streak(self): 
+        """display longest streak for all habits stored"""
         print("\n--- Longest Streak ---")
         habits = self.storage.load_habits()
         if not habits:
@@ -146,7 +163,8 @@ class CLI: #user and app interface class handling command line
                   f"streak: {streak} "
                   f"{'days' if habit.periodicity == 'daily' else 'weeks'}")
         
-    def display_struggled_most(self): #displays habit with lowest longest streak
+    def display_struggled_most(self): 
+        """displays habit with lowest longest streak"""
         print("\n--- Most Struggled Habit ---")
         habits = self.storage.load_habits()
         if not habits:
@@ -162,3 +180,4 @@ class CLI: #user and app interface class handling command line
             print(f"\n '{habit.habit_name}' was the most struggled habit "
               f"with a longest streak of only {streak} "
               f"{'days' if habit.periodicity == 'daily' else 'weeks'}")
+            
