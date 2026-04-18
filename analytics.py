@@ -75,7 +75,7 @@ def longest_streak_all(habits: list, all_logs: list) -> tuple:
         return (habit, get_streak(habit)) #calls habit for which streak it belongs 
 
     def compare_streaks(a, b): 
-        """compares streaks"""
+        """compares streaks across generated tuple"""
         return a if a[1] >= b[1] else b #returns streak with higher number
 
     streaks = list(map(make_streak_tuple, habits)) #matches each streak to corresponding habit, makes tuple
