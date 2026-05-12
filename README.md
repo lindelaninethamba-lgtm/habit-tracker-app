@@ -14,7 +14,7 @@ Python 3.7+ was chosen for this application and SQLite because it is built-in in
 1. main.py  runs the app
 2. habit.py  is the Habit class
 3. storage.py  runs all database operations
-4. analytics.py  runs all analytics functions such as computing streaks, loading habits and filtering by habit periosicity
+4. analytics.py  runs all analytics functions such as computing streaks, loading habits and filtering by habit periodicity
 5. cli.py  is the menu interface which allows the user to give input and returns the relevant output
 6. predefined_data.py loads 5 habits and 4 weeks of data and also data used for running tests
 7. tests/ folder contains all unit tests and fixtures
@@ -81,4 +81,6 @@ Expected output is all tests passing:
 All 26 tests passing:
 
 ![Test Results](images/tests_passing.png)
+
+
 
